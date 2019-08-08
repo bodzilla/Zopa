@@ -42,7 +42,7 @@ namespace Zopa.Console
                 .AddLogging(x => x.AddConsole())
                 .AddScoped<IDataStore, CsvStore>(serviceProvider =>
                     new CsvStore(serviceProvider.GetRequiredService<ILogger<CsvStore>>(), _path))
-                .AddScoped<IRepaymentCalculator, MonthlyRepaymentCalculator>()
+                .AddScoped<IRepaymentCalculator, RepaymentCalculator>()
                 .AddScoped<IRepaymentService, RepaymentService>()
                 .AddScoped<ILenderService, LenderService>()
                 .AddScoped<IQuoteService, QuoteService>()

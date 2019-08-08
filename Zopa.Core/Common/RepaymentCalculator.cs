@@ -5,12 +5,12 @@ using Zopa.Core.Contracts;
 namespace Zopa.Core.Common
 {
     /// <inheritdoc />
-    public class MonthlyRepaymentCalculator : IRepaymentCalculator
+    public class RepaymentCalculator : IRepaymentCalculator
     {
-        private readonly ILogger<MonthlyRepaymentCalculator> _logger;
+        private readonly ILogger<RepaymentCalculator> _logger;
         private const int MonthsInYear = 12;
 
-        public MonthlyRepaymentCalculator(ILogger<MonthlyRepaymentCalculator> logger) => _logger = logger;
+        public RepaymentCalculator(ILogger<RepaymentCalculator> logger) => _logger = logger;
 
         /// <inheritdoc />
         /// Uses Amortization formula found in: https://en.wikipedia.org/wiki/Amortization_calculator#The_formula

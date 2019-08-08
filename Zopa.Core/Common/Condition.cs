@@ -2,7 +2,7 @@
 
 namespace Zopa.Core.Common
 {
-    public class AmountConditions : ICondition
+    public class Condition : ICondition
     {
         /// <inheritdoc />
         public bool IsValidRequest(int amountRequested)
