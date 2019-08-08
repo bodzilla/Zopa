@@ -13,14 +13,14 @@ namespace Zopa.Core.Services
         private readonly ILogger<QuoteService> _logger;
         private readonly ILenderService _lenderService;
         private readonly IRepaymentService _repaymentService;
-        private readonly IConditions _conditions;
+        private readonly IConditionService _conditionService;
 
-        public QuoteService(ILogger<QuoteService> logger, ILenderService lenderService, IRepaymentService repaymentService, IConditions conditions)
+        public QuoteService(ILogger<QuoteService> logger, ILenderService lenderService, IRepaymentService repaymentService, IConditionService conditionService)
         {
             _logger = logger;
             _lenderService = lenderService;
             _repaymentService = repaymentService;
-            _conditions = conditions;
+            _conditionService = conditionService;
         }
 
         /// <inheritdoc />
@@ -29,7 +29,7 @@ namespace Zopa.Core.Services
             Quote bestQuote;
             try
             {
-                var amountRequestedValid = _conditions.CheckAmountRequestedValid(amountRequested);
+                var amountRequestedValid = _conditionService.CheckAmountRequestedValid(amountRequested);
                 if (!amountRequestedValid)
                 {
                     var ex = new Exception($"£{amountRequested} is not within the accepted criteria.");

@@ -7,22 +7,22 @@ using Microsoft.Extensions.Logging;
 using Zopa.Core.Contracts;
 using Zopa.Models;
 
-namespace Zopa.Core.Common
+namespace Zopa.Core.Repositories
 {
     /// <inheritdoc />
-    public class CsvStore : IDataStore
+    public class LenderRepository : IRepository<Lender>
     {
-        private readonly ILogger<CsvStore> _logger;
+        private readonly ILogger<LenderRepository> _logger;
         private readonly string _path;
 
-        public CsvStore(ILogger<CsvStore> logger, string path)
+        public LenderRepository(ILogger<LenderRepository> logger, string path)
         {
             _logger = logger;
             _path = path;
         }
 
         /// <inheritdoc />
-        public IEnumerable<Lender> ExtractAll()
+        public IEnumerable<Lender> GetAll()
         {
             var lenders = new List<Lender>();
             try

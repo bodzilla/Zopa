@@ -11,12 +11,12 @@ namespace Zopa.Core.Services
     public class LenderService : ILenderService
     {
         private readonly ILogger<LenderService> _logger;
-        private readonly IDataStore _dataStore;
+        private readonly IRepository<Lender> _repository;
 
-        public LenderService(ILogger<LenderService> logger, IDataStore dataStore)
+        public LenderService(ILogger<LenderService> logger, IRepository<Lender> repository)
         {
             _logger = logger;
-            _dataStore = dataStore;
+            _repository = repository;
         }
 
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace Zopa.Core.Services
             IEnumerable<Lender> lenders;
             try
             {
-                lenders = _dataStore.ExtractAll();
+                lenders = _repository.GetAll();
             }
             catch (Exception ex)
             {

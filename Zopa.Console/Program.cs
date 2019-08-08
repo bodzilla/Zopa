@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Zopa.Core.Common;
 using Zopa.Core.Contracts;
+using Zopa.Core.Repositories;
 using Zopa.Core.Services;
+using Zopa.Models;
 
 namespace Zopa.Console
 {
@@ -40,10 +41,9 @@ namespace Zopa.Console
         private static void ConfigureServices(IServiceCollection serviceCollection)
             => serviceCollection
                 .AddLogging(x => x.AddConsole())
-                .AddScoped<IDataStore, CsvStore>(serviceProvider =>
-                    new CsvStore(serviceProvider.GetRequiredService<ILogger<CsvStore>>(), _path))
-                .AddScoped<IConditions, Conditions>()
-                .AddScoped<IRepaymentCalculator, RepaymentCalculator>()
+                .AddScoped<IRepository<Lender>, LenderRepository>(serviceProvider =>
+                    new LenderRepository(serviceProvider.GetRequiredService<ILogger<LenderRepository>>(), _path))
+                .AddScoped<IConditionService, ConditionService>()
                 .AddScoped<IRepaymentService, RepaymentService>()
                 .AddScoped<ILenderService, LenderService>()
                 .AddScoped<IQuoteService, QuoteService>()

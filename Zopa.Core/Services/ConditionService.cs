@@ -1,8 +1,8 @@
 ﻿using Zopa.Core.Contracts;
 
-namespace Zopa.Core.Common
+namespace Zopa.Core.Services
 {
-    public class Conditions : IConditions
+    public class ConditionService : IConditionService
     {
         /// <inheritdoc />
         public bool CheckAmountRequestedValid(int amountRequested)

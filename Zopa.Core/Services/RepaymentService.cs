@@ -8,13 +8,9 @@ namespace Zopa.Core.Services
     public class RepaymentService : IRepaymentService
     {
         private readonly ILogger<RepaymentService> _logger;
-        private readonly IRepaymentCalculator _calculator;
+        private const int MonthsInYear = 12;
 
-        public RepaymentService(ILogger<RepaymentService> logger, IRepaymentCalculator calculator)
-        {
-            _logger = logger;
-            _calculator = calculator;
-        }
+        public RepaymentService(ILogger<RepaymentService> logger) => _logger = logger;
 
         /// <inheritdoc />
         public double GetRepaymentAmount(int amountRequested, double interestRateDecimal, int repaymentLengthMonths)
@@ -22,11 +18,14 @@ namespace Zopa.Core.Services
             double monthlyRepayment;
             try
             {
-                monthlyRepayment = _calculator.CalculateRepayment(amountRequested, interestRateDecimal, repaymentLengthMonths);
+                var totalPayments = -(MonthsInYear * (repaymentLengthMonths / MonthsInYear));
+                var numerator = amountRequested * interestRateDecimal / MonthsInYear;
+                var denominator = 1 - Math.Pow(1 + interestRateDecimal / MonthsInYear, totalPayments);
+                monthlyRepayment = numerator / denominator;
             }
             catch (Exception ex)
             {
-                _logger.LogError("Could not get repayment amount.", ex);
+                _logger.LogError("Could not calculate monthly repayment rate.", amountRequested, interestRateDecimal, repaymentLengthMonths, ex);
                 throw;
             }
             return monthlyRepayment;

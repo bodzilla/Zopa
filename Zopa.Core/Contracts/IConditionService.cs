@@ -3,7 +3,7 @@
     /// <summary>
     /// Constraints for requests.
     /// </summary>
-    public interface IConditions
+    public interface IConditionService
     {
         /// <summary>
         /// Checks if the amount requested is valid.

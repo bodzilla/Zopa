@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
-using Zopa.Models;
 
 namespace Zopa.Core.Contracts
 {
     /// <summary>
     /// The interface from which all data extractors inherit from. 
     /// </summary>
-    public interface IDataStore
+    public interface IRepository<out T>
     {
         /// <summary>
-        /// Extracts all <see cref="Lender"/> from data source.
+        /// Get all <see cref="T"/> from data source.
         /// </summary>
         /// <returns></returns>
-        IEnumerable<Lender> ExtractAll();
+        IEnumerable<T> GetAll();
     }
 }
