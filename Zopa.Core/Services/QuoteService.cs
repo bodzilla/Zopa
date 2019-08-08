@@ -48,6 +48,7 @@ namespace Zopa.Core.Services
             return bestQuote;
         }
 
+        /// <inheritdoc />
         public IEnumerable<Quote> GetQuotes(IEnumerable<Lender> lenders, int amountRequested, int repaymentLengthMonths)
         {
             var quotes = new List<Quote>();
