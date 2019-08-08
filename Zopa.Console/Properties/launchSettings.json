@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Zopa.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\bodrul.choudhury\\Desktop\\Market Data for Exercise - csv.csv\" 1000"
+    }
+  }
+}
