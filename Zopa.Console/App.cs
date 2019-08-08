@@ -15,7 +15,7 @@ namespace Zopa.Console
             _quoteService = quoteService;
         }
 
-        public void Run(string path, int amountRequested)
+        public void Run(int amountRequested)
         {
             try
             {

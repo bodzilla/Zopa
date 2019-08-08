@@ -29,7 +29,7 @@ namespace Zopa.Console
             }
 
             // Entry point for application.
-            app.Run(_path, _amountRequested);
+            app.Run(_amountRequested);
         }
 
         /// <summary>
@@ -42,6 +42,7 @@ namespace Zopa.Console
                 .AddLogging(x => x.AddConsole())
                 .AddScoped<IDataStore, CsvStore>(serviceProvider =>
                     new CsvStore(serviceProvider.GetRequiredService<ILogger<CsvStore>>(), _path))
+                .AddScoped<IConditions, Conditions>()
                 .AddScoped<IRepaymentCalculator, RepaymentCalculator>()
                 .AddScoped<IRepaymentService, RepaymentService>()
                 .AddScoped<ILenderService, LenderService>()
