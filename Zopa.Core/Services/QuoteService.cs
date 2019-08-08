@@ -55,8 +55,8 @@ namespace Zopa.Core.Services
             {
                 foreach (var lender in lenders)
                 {
-                    var incrementalRepaymentAmount = _repaymentService.GetRepaymentAmount(amountRequested, lender.InterestRateDecimal, repaymentLengthMonths);
-                    var quote = new Quote(amountRequested, lender.InterestRateDecimal, incrementalRepaymentAmount, repaymentLengthMonths);
+                    var monthlyRepayment = _repaymentService.GetMonthlyRepaymentAmount(amountRequested, lender.InterestRateDecimal, repaymentLengthMonths);
+                    var quote = new Quote(amountRequested, lender.InterestRateDecimal, monthlyRepayment, repaymentLengthMonths);
                     quotes.Add(quote);
                 }
             }

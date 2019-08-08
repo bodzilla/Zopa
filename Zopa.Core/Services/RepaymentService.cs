@@ -13,7 +13,7 @@ namespace Zopa.Core.Services
         public RepaymentService(ILogger<RepaymentService> logger) => _logger = logger;
 
         /// <inheritdoc />
-        public double GetRepaymentAmount(int amountRequested, double interestRateDecimal, int repaymentLengthMonths)
+        public double GetMonthlyRepaymentAmount(int amountRequested, double interestRateDecimal, int repaymentLengthMonths)
         {
             double monthlyRepayment;
             try
