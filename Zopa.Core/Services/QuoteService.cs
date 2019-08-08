@@ -29,6 +29,7 @@ namespace Zopa.Core.Services
             Quote bestQuote;
             try
             {
+                // Check if the amount requested is valid to continue.
                 var amountRequestedValid = _conditionService.CheckAmountRequestedValid(amountRequested);
                 if (!amountRequestedValid)
                 {
@@ -36,8 +37,12 @@ namespace Zopa.Core.Services
                     _logger.LogError(ex.Message, ex);
                     throw ex;
                 }
+
+                // Get all lenders and assess which of them have the funds to offer a quote.
                 var lenders = _lenderService.GetListWithMinAmount(amountRequested);
                 var quotes = GetQuotes(lenders, amountRequested, repaymentLengthMonths);
+
+                // The best quote offers the lowest total repayment.
                 bestQuote = quotes.OrderBy(quote => quote.TotalRepayment).FirstOrDefault();
             }
             catch (Exception ex)
@@ -56,6 +61,7 @@ namespace Zopa.Core.Services
             {
                 foreach (var lender in lenders)
                 {
+                    // Calculate the monthly repayment for current lender and add it to the quote list.
                     var monthlyRepayment = _repaymentService.GetMonthlyRepaymentAmount(amountRequested, lender.InterestRateDecimal, repaymentLengthMonths);
                     var quote = new Quote(amountRequested, lender.InterestRateDecimal, monthlyRepayment, repaymentLengthMonths);
                     quotes.Add(quote);

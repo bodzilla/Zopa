@@ -27,6 +27,7 @@ namespace Zopa.Core.Repositories
             var lenders = new List<Lender>();
             try
             {
+                // Use CSV reader to extract records from fields.
                 using (var streamReader = new StreamReader(_path))
                 {
                     using (var csvReader = new CsvReader(streamReader))

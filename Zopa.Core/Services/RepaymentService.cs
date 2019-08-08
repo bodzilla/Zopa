@@ -18,6 +18,7 @@ namespace Zopa.Core.Services
             double monthlyRepayment;
             try
             {
+                // This is the Amortization forumla, adapted from: https://en.wikipedia.org/wiki/Amortization_calculator#The_formula
                 var totalPayments = -(MonthsInYear * (repaymentLengthMonths / MonthsInYear));
                 var numerator = amountRequested * interestRateDecimal / MonthsInYear;
                 var denominator = 1 - Math.Pow(1 + interestRateDecimal / MonthsInYear, totalPayments);

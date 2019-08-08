@@ -40,7 +40,7 @@ namespace Zopa.Console
         /// <returns></returns>
         private static void ConfigureServices(IServiceCollection serviceCollection)
             => serviceCollection
-                .AddLogging(x => x.AddConsole())
+                .AddLogging(builder => builder.AddConsole())
                 .AddScoped<IRepository<Lender>, LenderRepository>(serviceProvider =>
                     new LenderRepository(serviceProvider.GetRequiredService<ILogger<LenderRepository>>(), _path))
                 .AddScoped<IConditionService, ConditionService>()
