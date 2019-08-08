@@ -22,7 +22,7 @@ namespace Zopa.Core.Services
         }
 
         /// <inheritdoc />
-        public Quote CalculateBestQuote(int amountRequested, int repaymentLengthMonths)
+        public Quote GetBestQuote(int amountRequested, int repaymentLengthMonths)
         {
             Quote bestQuote;
             try
@@ -36,7 +36,6 @@ namespace Zopa.Core.Services
                 _logger.LogError("Could not get quotes.", amountRequested, repaymentLengthMonths, ex);
                 throw;
             }
-
             return bestQuote;
         }
 

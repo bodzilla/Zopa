@@ -19,7 +19,7 @@ namespace Zopa.Console
         {
             try
             {
-                var quote = _quoteService.CalculateBestQuote(amountRequested, 36);
+                var quote = _quoteService.GetBestQuote(amountRequested, 36);
 
                 if (quote != null)
                 {

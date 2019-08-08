@@ -13,6 +13,6 @@ namespace Zopa.Core.Contracts
         /// <param name="amountRequested"></param>
         /// <param name="repaymentLengthMonths"></param>
         /// <returns></returns>
-        Quote CalculateBestQuote(int amountRequested, int repaymentLengthMonths);
+        Quote GetBestQuote(int amountRequested, int repaymentLengthMonths);
     }
 }
