@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using CsvHelper;
 using Microsoft.Extensions.Logging;
 using Zopa.Core.Contracts;
 using Zopa.Models;
@@ -13,39 +11,24 @@ namespace Zopa.Core.Repositories
     public class LenderRepository : IRepository<Lender>
     {
         private readonly ILogger<LenderRepository> _logger;
-        private readonly string _path;
+        private readonly IEnumerable<Lender> _lenders;
 
-        public LenderRepository(ILogger<LenderRepository> logger, string path)
+        public LenderRepository(ILogger<LenderRepository> logger, IEnumerable<Lender> lenders)
         {
             _logger = logger;
-            _path = path;
+            _lenders = lenders;
         }
 
         /// <inheritdoc />
         public IEnumerable<Lender> GetAll()
         {
-            var lenders = new List<Lender>();
-            try
+            if (_lenders != null && _lenders.Any())
             {
-                // Use CSV reader to extract records from fields.
-                using (var streamReader = new StreamReader(_path))
-                {
-                    using (var csvReader = new CsvReader(streamReader))
-                    {
-                        var records = csvReader.GetRecords<dynamic>();
-                        lenders.AddRange(
-                            records.Select(
-                                lender => new Lender(lender.Lender, double.Parse(lender.Rate), double.Parse(lender.Available)))
-                        );
-                    }
-                }
+                return _lenders;
             }
-            catch (Exception ex)
-            {
-                _logger.LogError("Could not extract data from CSV.", ex);
-                throw;
-            }
-            return lenders;
+            var ex = new Exception("No lenders exist in collection.");
+            _logger.LogWarning(ex.Message, ex);
+            throw ex;
         }
     }
 }

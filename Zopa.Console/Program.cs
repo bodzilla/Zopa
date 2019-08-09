@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Zopa.Core.Common;
 using Zopa.Core.Contracts;
 using Zopa.Core.Repositories;
 using Zopa.Core.Services;
@@ -47,8 +48,9 @@ namespace Zopa.Console
             services
                 .AddLogging(loggingBuilder => loggingBuilder.AddConsole())
                 .AddSingleton(configuration)
-                .AddTransient<IRepository<Lender>, LenderRepository>(serviceProvider =>
-                    new LenderRepository(serviceProvider.GetRequiredService<ILogger<LenderRepository>>(), _path))
+                .AddTransient(serviceProvider => new DataStore(serviceProvider.GetRequiredService<ILogger<DataStore>>(), _path))
+                .AddTransient<IRepository<Lender>, LenderRepository>(serviceProvider => new LenderRepository(
+                    serviceProvider.GetRequiredService<ILogger<LenderRepository>>(), serviceProvider.GetRequiredService<DataStore>().ExtractAllLenders()))
                 .AddTransient<IConditionService, ConditionService>()
                 .AddTransient<IRepaymentService, RepaymentService>()
                 .AddTransient<ILenderService, LenderService>()
