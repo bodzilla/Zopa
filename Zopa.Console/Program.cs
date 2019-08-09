@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.IO;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Zopa.Core.Contracts;
 using Zopa.Core.Repositories;
@@ -17,14 +19,12 @@ namespace Zopa.Console
             _path = args[0];
             _amountRequested = int.Parse(args[1]);
 
-            // Configure dependencies.
-            ServiceProvider serviceProvider;
-            var serviceCollection = new ServiceCollection();
-            ConfigureServices(serviceCollection);
+            // Configure settings and dependencies.
+            var serviceCollection = ConfigureServices();
 
             // Get application instance.
             App app;
-            using (serviceProvider = serviceCollection.BuildServiceProvider())
+            using (var serviceProvider = serviceCollection.BuildServiceProvider())
             {
                 app = serviceProvider.GetRequiredService<App>();
             }
@@ -34,19 +34,42 @@ namespace Zopa.Console
         }
 
         /// <summary>
-        /// Builds the IoC container with all dependencies.
+        /// Builds configuration builder and the IoC container with all dependencies.
         /// </summary>
-        /// <param name="serviceCollection"></param>
         /// <returns></returns>
-        private static void ConfigureServices(IServiceCollection serviceCollection)
-            => serviceCollection
-                .AddLogging(builder => builder.AddConsole())
-                .AddScoped<IRepository<Lender>, LenderRepository>(serviceProvider =>
+        private static IServiceCollection ConfigureServices()
+        {
+            IServiceCollection services = new ServiceCollection();
+
+            // Set up the objects we need to get to configuration settings.
+            var configuration = ConfigureSettings();
+
+            services
+                .AddLogging(loggingBuilder => loggingBuilder.AddConsole())
+                .AddSingleton(configuration)
+                .AddTransient<IRepository<Lender>, LenderRepository>(serviceProvider =>
                     new LenderRepository(serviceProvider.GetRequiredService<ILogger<LenderRepository>>(), _path))
-                .AddScoped<IConditionService, ConditionService>()
-                .AddScoped<IRepaymentService, RepaymentService>()
-                .AddScoped<ILenderService, LenderService>()
-                .AddScoped<IQuoteService, QuoteService>()
-                .AddSingleton<App>();
+                .AddTransient<IConditionService, ConditionService>()
+                .AddTransient<IRepaymentService, RepaymentService>()
+                .AddTransient<ILenderService, LenderService>()
+                .AddTransient<IQuoteService, QuoteService>()
+                .AddTransient<App>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Builds the configuration settings.
+        /// </summary>
+        /// <returns></returns>
+        private static IConfiguration ConfigureSettings()
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, true);
+
+            var configuration = builder.Build();
+            return configuration;
+        }
     }
 }

@@ -19,7 +19,8 @@ namespace Zopa.Console
         {
             try
             {
-                var quote = _quoteService.GetBestQuote(amountRequested, 36);
+                // Get the best quote out of the available lenders.
+                var quote = _quoteService.GetBestQuote(amountRequested);
 
                 if (quote != null)
                 {

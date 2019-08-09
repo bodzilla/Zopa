@@ -12,17 +12,15 @@ namespace Zopa.Core.Contracts
         /// Calculates the best <see cref="Quote"/> for the given amount and time.
         /// </summary>
         /// <param name="amountRequested"></param>
-        /// <param name="repaymentLengthMonths"></param>
         /// <returns></returns>
-        Quote GetBestQuote(int amountRequested, int repaymentLengthMonths);
+        Quote GetBestQuote(int amountRequested);
 
         /// <summary>
         /// Get all <see cref="Quote"/> for the given amount and time.
         /// </summary>
         /// <param name="lenders"></param>
         /// <param name="amountRequested"></param>
-        /// <param name="repaymentLengthMonths"></param>
         /// <returns></returns>
-        IEnumerable<Quote> GetQuotes(IEnumerable<Lender> lenders, int amountRequested, int repaymentLengthMonths);
+        IEnumerable<Quote> GetQuotes(IEnumerable<Lender> lenders, int amountRequested);
     }
 }
