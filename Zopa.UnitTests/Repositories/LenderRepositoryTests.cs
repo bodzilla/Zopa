@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -22,7 +23,7 @@ namespace Zopa.UnitTests.Repositories
         public void TearDown() => _lenderRepository = null;
 
         [Test]
-        public void GetAll_GetAllLenders_ReturnsThreeLenders()
+        public void GetAll_ThreeLenders_ReturnsThreeLenders()
         {
             #region Arrange
 
@@ -47,13 +48,13 @@ namespace Zopa.UnitTests.Repositories
 
             var list = result.ToList();
             Assert.That(list, Is.TypeOf<List<Lender>>());
-            Assert.That(list.Count(), Is.EqualTo(3));
+            Assert.That(list.Count, Is.EqualTo(3));
 
             #endregion
         }
 
         [Test]
-        public void GetAll_GetAllLenders_ReturnsNoLenders()
+        public void GetAll_EmptyCollection_ThrowsNullLendersCollectionException()
         {
             #region Arrange
 
@@ -61,23 +62,15 @@ namespace Zopa.UnitTests.Repositories
 
             #endregion
 
-            #region Act
+            #region Act And Assert
 
-            var result = _lenderRepository.GetAll();
-
-            #endregion
-
-            #region Assert
-
-            var list = result.ToList();
-            Assert.That(list, Is.TypeOf<List<Lender>>());
-            Assert.That(list.Count, Is.EqualTo(0));
+            Assert.That(() => _lenderRepository.GetAll(), Throws.TypeOf<Exception>());
 
             #endregion
         }
 
         [Test]
-        public void GetAll_GetAllLenders_ReturnsNull()
+        public void GetAll_NullResult_ThrowsNullLendersCollectionException()
         {
             #region Arrange
 
@@ -85,17 +78,9 @@ namespace Zopa.UnitTests.Repositories
 
             #endregion
 
-            #region Act
+            #region Act And Assert
 
-            var result = _lenderRepository.GetAll();
-
-            #endregion
-
-            #region Assert
-
-            var list = result.ToList();
-            Assert.That(list, Is.TypeOf<List<Lender>>());
-            Assert.That(list.Count(), Is.Null);
+            Assert.That(() => _lenderRepository.GetAll(), Throws.TypeOf<Exception>());
 
             #endregion
         }

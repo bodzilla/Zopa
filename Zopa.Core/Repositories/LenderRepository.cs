@@ -26,8 +26,8 @@ namespace Zopa.Core.Repositories
             {
                 return _lenders;
             }
-            var ex = new Exception("No lenders exist in collection.");
-            _logger.LogWarning(ex.Message, ex);
+            var ex = new Exception("Lenders collection is empty or null.");
+            _logger.LogError(ex.Message, ex);
             throw ex;
         }
     }
