@@ -35,8 +35,7 @@ namespace Zopa.Core.Repositories
                         var records = csvReader.GetRecords<dynamic>();
                         lenders.AddRange(
                             records.Select(
-                                lender => new Lender(lender.Lender, double.Parse(lender.Rate),
-                                    double.Parse(lender.Available)))
+                                lender => new Lender(lender.Lender, double.Parse(lender.Rate), double.Parse(lender.Available)))
                         );
                     }
                 }
