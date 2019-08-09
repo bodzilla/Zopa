@@ -54,7 +54,7 @@ namespace Zopa.UnitTests.Repositories
         }
 
         [Test]
-        public void GetAll_EmptyCollection_ThrowsNullLendersCollectionException()
+        public void GetAll_EmptyCollection_ReturnsNoLenders()
         {
             #region Arrange
 
@@ -62,9 +62,17 @@ namespace Zopa.UnitTests.Repositories
 
             #endregion
 
-            #region Act And Assert
+            #region Act
 
-            Assert.That(() => _lenderRepository.GetAll(), Throws.TypeOf<Exception>());
+            var result = _lenderRepository.GetAll();
+
+            #endregion
+
+            #region Assert
+
+            var list = result.ToList();
+            Assert.That(list, Is.TypeOf<List<Lender>>());
+            Assert.That(list.Count, Is.EqualTo(0));
 
             #endregion
         }
@@ -78,9 +86,15 @@ namespace Zopa.UnitTests.Repositories
 
             #endregion
 
-            #region Act And Assert
+            #region Act
 
-            Assert.That(() => _lenderRepository.GetAll(), Throws.TypeOf<Exception>());
+            var result = _lenderRepository.GetAll();
+
+            #endregion
+
+            #region Assert
+
+            Assert.That(result, Is.Null);
 
             #endregion
         }

@@ -22,17 +22,22 @@ namespace Zopa.Core.Services
         /// <inheritdoc />
         public IEnumerable<Lender> GetAll()
         {
-            IEnumerable<Lender> lenders;
             try
             {
-                lenders = _repository.GetAll();
+                var lenders = _repository.GetAll()?.ToList();
+                if (lenders != null && lenders.Any())
+                {
+                    return lenders;
+                }
             }
             catch (Exception ex)
             {
                 _logger.LogError("Could not get lenders.", ex);
                 throw;
             }
-            return lenders;
+            var exception = new Exception("Lenders collection is empty.");
+            _logger.LogError(exception.Message, exception);
+            throw exception;
         }
 
         /// <inheritdoc />

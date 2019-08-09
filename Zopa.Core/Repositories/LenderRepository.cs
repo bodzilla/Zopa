@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Extensions.Logging;
 using Zopa.Core.Contracts;
 using Zopa.Models;
@@ -22,13 +21,15 @@ namespace Zopa.Core.Repositories
         /// <inheritdoc />
         public IEnumerable<Lender> GetAll()
         {
-            if (_lenders != null && _lenders.Any())
+            try
             {
                 return _lenders;
             }
-            var ex = new Exception("Lenders collection is empty or null.");
-            _logger.LogError(ex.Message, ex);
-            throw ex;
+            catch (Exception ex)
+            {
+                _logger.LogError("Could not return lenders", ex);
+                throw;
+            }
         }
     }
 }

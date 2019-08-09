@@ -37,9 +37,9 @@ namespace Zopa.Core.Services
                 bool amountRequestedValid = _conditionService.CheckAmountRequestedValid(amountRequested);
                 if (!amountRequestedValid)
                 {
-                    var ex = new Exception($"£{amountRequested} is not within the accepted criteria.");
-                    _logger.LogError(ex.Message, ex);
-                    throw ex;
+                    var exception = new Exception($"£{amountRequested} is not within the accepted criteria.");
+                    _logger.LogError(exception.Message, exception);
+                    throw exception;
                 }
 
                 // Get all lenders and assess which of them have the funds to offer a quote.
