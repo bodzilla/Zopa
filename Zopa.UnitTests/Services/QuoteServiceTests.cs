@@ -77,7 +77,7 @@ namespace Zopa.UnitTests.Services
         }
 
         [Test]
-        public void GetBestQuote_NoLenders_ReturnsNull()
+        public void GetBestQuote_EmptyLendersCollection_ReturnsNull()
         {
             #region Arrange
 
