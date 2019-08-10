@@ -78,7 +78,7 @@ namespace Zopa.UnitTests.Repositories
         }
 
         [Test]
-        public void GetAll_NullResult_ThrowsNullLendersCollectionException()
+        public void GetAll_NullResult_ReturnsNull()
         {
             #region Arrange
 

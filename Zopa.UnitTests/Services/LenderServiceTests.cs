@@ -76,7 +76,7 @@ namespace Zopa.UnitTests.Services
         }
 
         [Test]
-        public void GetAll_Null_ThrowsException()
+        public void GetAll_NullResult_ThrowsException()
         {
             #region Arrange
 

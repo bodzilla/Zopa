@@ -2,7 +2,7 @@
   "profiles": {
     "Zopa.Console": {
       "commandName": "Project",
-      "commandLineArgs": "\"C:\\Users\\bodrul.choudhury\\Desktop\\Market Data for Exercise - MODIFIED.csv\"  2000"
+      "commandLineArgs": "\"C:\\Users\\bodru\\Desktop\\Market Data for Exercise - csv.csv\"  1000"
     }
   }
 }
