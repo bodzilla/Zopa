@@ -1,5 +1,5 @@
 Run instructions:
-- Build application
+- Compile and build application
 - Modify appsettings.json as required
 - Run using: "dotnet .\Zopa.Console.dll [market_file_path] [loan_amount]"
 
