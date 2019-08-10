@@ -2,17 +2,22 @@
 {
     public sealed class Quote
     {
-        public Quote(int amountRequested, double annualInterestRate, double monthlyRepayment, int repaymentLengthMonths)
+        public Quote(int amountRequested, double annualInterestRateDecimal, double monthlyRepayment, int repaymentLengthMonths)
         {
             AmountRequested = amountRequested;
-            AnnualInterestRate = annualInterestRate;
+            AnnualInterestRateDecimal = annualInterestRateDecimal;
             MonthlyRepayment = monthlyRepayment;
             TotalRepayment = MonthlyRepayment * repaymentLengthMonths;
+
+            // Convert to percentage.
+            AnnualInterestRatePercentage = AnnualInterestRateDecimal * 100;
         }
 
         public int AmountRequested { get; }
 
-        public double AnnualInterestRate { get; }
+        public double AnnualInterestRateDecimal { get; }
+
+        public double AnnualInterestRatePercentage { get; }
 
         public double MonthlyRepayment { get; }
 

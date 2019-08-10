@@ -24,12 +24,13 @@ namespace Zopa.Console
 
                 if (quote != null)
                 {
+
                     // Interest rate to one decimal point.
                     // Amounts to two decimal points.
                     System.Console.WriteLine($"Requested amount: £{quote.AmountRequested}{Environment.NewLine}" +
-                                             $"Annual interest rate: {Math.Round(quote.AnnualInterestRate, 1)}%{Environment.NewLine}" +
-                                             $"Monthly repayment: £{Math.Round(quote.MonthlyRepayment, 2)}{Environment.NewLine}" +
-                                             $"Total repayment: £{Math.Round(quote.TotalRepayment, 2)}");
+                                             $"Annual interest rate: {quote.AnnualInterestRatePercentage:0.0}%{Environment.NewLine}" +
+                                             $"Monthly repayment: £{quote.MonthlyRepayment:0.00}{Environment.NewLine}" +
+                                             $"Total repayment: £{quote.TotalRepayment:0.00}");
                 }
                 else
                 {
