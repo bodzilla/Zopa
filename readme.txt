@@ -20,4 +20,5 @@ Would like to improve by:
 - Pushing as a serverless cloud app (i.e. Azure Function)
 - Using BDD approach to testing with relevant frameworks
 - Using a NoSQL database as data store
+- Using async approach
 - Custom exceptions
