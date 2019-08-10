@@ -28,7 +28,7 @@ namespace Zopa.Core.Repositories
             }
             catch (Exception ex)
             {
-                _logger.LogError("Could not return lenders", ex);
+                _logger.LogError("Could not get lenders from datastore.", ex);
                 throw;
             }
             return lenders;
