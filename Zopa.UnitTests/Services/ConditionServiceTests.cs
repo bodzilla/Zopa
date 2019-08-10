@@ -20,13 +20,33 @@ namespace Zopa.UnitTests.Services
         [OneTimeTearDown]
         public void TearDown() => _conditionService = null;
 
-        [TestCase("100", 200, true)]
-        [TestCase("10", 20, true)]
-        [TestCase("1", 2, true)]
-        [TestCase("100", 201, false)]
-        [TestCase("10", 21, false)]
-        [TestCase("5", 1, false)]
-        public void IsDivisible_UseDivisible_ReturnsExpectedResult(string divisibleValue, int amountRequested, bool expectedResult)
+        #region Is Divisible And Within Range
+
+        [TestCase("100", "100", "500", 200, true)]
+        [TestCase("100", "-500", "-100", -200, true)]
+        [TestCase("100", "100", "500", 100, true)]
+        [TestCase("100", "100", "500", 500, true)]
+
+        #endregion
+        #region Is Divisible And Not Within Range
+
+        [TestCase("99", "100", "500", 99, false)]
+        [TestCase("501", "100", "500", 501, false)]
+        [TestCase("100", "100", "500", -100, false)]
+
+        #endregion
+        #region Is Not Divisible And Within Range
+
+        [TestCase("2", "100", "200", 101, false)]
+        [TestCase("2", "-200", "-100", -101, false)]
+
+        #endregion
+        #region Is Not Divisible And Not Within Range
+        [TestCase("2", "100", "200", 201, false)]
+        [TestCase("2", "-200", "-100", -99, false)]
+        [TestCase("2", "-200", "-100", -201, false)]
+        #endregion
+        public void IsAmountRequestedValid_UseValues_ReturnsExpectedResult(string divisibleValue, string acceptanceRangeBottom, string acceptanceRangeTop, int amountRequested, bool expectedResult)
         {
             #region Arrange
 
@@ -34,41 +54,7 @@ namespace Zopa.UnitTests.Services
             {
                 {
                     "DivisibleValue", divisibleValue
-                }
-            };
-
-            var configuration = new ConfigurationBuilder().AddInMemoryCollection(settings).Build();
-            _conditionService = new ConditionService(_logger.Object, configuration);
-
-            #endregion
-
-            #region Act
-
-            var result = _conditionService.IsDivisible(amountRequested);
-
-            #endregion
-
-            #region Assert
-
-            Assert.That(result, Is.TypeOf<bool>());
-            Assert.That(result, Is.EqualTo(expectedResult));
-
-            #endregion
-        }
-
-        [TestCase("100", "500", 200, true)]
-        [TestCase("-500", "-100", -200, true)]
-        [TestCase("100", "500", 100, true)]
-        [TestCase("100", "500", 500, true)]
-        [TestCase("100", "500", 99, false)]
-        [TestCase("100", "500", 501, false)]
-        [TestCase("100", "500", -100, false)]
-        public void IsWithinRange_UseAcceptanceRanges_ReturnsExpectedResult(string acceptanceRangeBottom, string acceptanceRangeTop, int amountRequested, bool expectedResult)
-        {
-            #region Arrange
-
-            var settings = new Dictionary<string, string>
-            {
+                },
                 {
                     "AcceptanceRangeBottom", acceptanceRangeBottom
                 },
@@ -84,7 +70,7 @@ namespace Zopa.UnitTests.Services
 
             #region Act
 
-            var result = _conditionService.IsWithinRange(amountRequested);
+            var result = _conditionService.IsAmountRequestedValid(amountRequested);
 
             #endregion
 

@@ -36,8 +36,12 @@ namespace Zopa.Core.Services
             }
         }
 
-        /// <inheritdoc />
-        public bool IsDivisible(int amountRequested)
+        /// <summary>
+        /// Checks if the amount requested is disivible by the given number.
+        /// </summary>
+        /// <param name="amountRequested"></param>
+        /// <returns></returns>
+        private bool IsDivisible(int amountRequested)
         {
             try
             {
@@ -50,8 +54,12 @@ namespace Zopa.Core.Services
             }
         }
 
-        /// <inheritdoc />
-        public bool IsWithinRange(int amountRequested)
+        /// <summary>
+        /// Checks if the amount requested is within the given range.
+        /// </summary>
+        /// <param name="amountRequested"></param>
+        /// <returns></returns>
+        private bool IsWithinRange(int amountRequested)
         {
             try
             {
