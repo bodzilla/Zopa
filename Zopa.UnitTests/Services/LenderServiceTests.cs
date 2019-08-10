@@ -35,7 +35,7 @@ namespace Zopa.UnitTests.Services
             {
                 new Lender("Test1",1,1),
                 new Lender("Test2",2,10),
-                new Lender("Test3",3,100),
+                new Lender("Test3",3,100)
             };
 
             _repository.Setup(x => x.GetAll()).Returns(data);

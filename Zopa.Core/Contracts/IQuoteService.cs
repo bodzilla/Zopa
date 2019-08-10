@@ -8,7 +8,7 @@ namespace Zopa.Core.Contracts
     public interface IQuoteService
     {
         /// <summary>
-        /// Gets the best quote offers the lowest total repayment. Returns null when there are no lenders capable of offering a quote.
+        /// Gets the best quote offering the lowest total repayment. Returns null when there are no lenders capable of offering a quote.
         /// </summary>
         /// <param name="amountRequested"></param>
         /// <returns></returns>
