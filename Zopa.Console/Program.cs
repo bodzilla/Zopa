@@ -48,9 +48,8 @@ namespace Zopa.Console
             services
                 .AddLogging(loggingBuilder => loggingBuilder.AddConsole())
                 .AddSingleton(configuration)
-                .AddTransient(serviceProvider => new DataStore(serviceProvider.GetRequiredService<ILogger<DataStore>>(), _path))
-                .AddTransient<IRepository<Lender>, LenderRepository>(serviceProvider => new LenderRepository(
-                    serviceProvider.GetRequiredService<ILogger<LenderRepository>>(), serviceProvider.GetRequiredService<DataStore>().ExtractAllLenders()))
+                .AddTransient<IDataStore, DataStore>(serviceProvider => new DataStore(serviceProvider.GetRequiredService<ILogger<DataStore>>(), _path))
+                .AddTransient<IRepository<Lender>, LenderRepository>()
                 .AddTransient<IConditionService, ConditionService>()
                 .AddTransient<IRepaymentService, RepaymentService>()
                 .AddTransient<ILenderService, LenderService>()

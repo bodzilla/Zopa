@@ -10,26 +10,28 @@ namespace Zopa.Core.Repositories
     public class LenderRepository : IRepository<Lender>
     {
         private readonly ILogger<LenderRepository> _logger;
-        private readonly IEnumerable<Lender> _lenders;
+        private readonly IDataStore _dataStore;
 
-        public LenderRepository(ILogger<LenderRepository> logger, IEnumerable<Lender> lenders)
+        public LenderRepository(ILogger<LenderRepository> logger, IDataStore dataStore)
         {
             _logger = logger;
-            _lenders = lenders;
+            _dataStore = dataStore;
         }
 
         /// <inheritdoc />
         public IEnumerable<Lender> GetAll()
         {
+            IEnumerable<Lender> lenders;
             try
             {
-                return _lenders;
+                lenders = _dataStore.ExtractAllLenders();
             }
             catch (Exception ex)
             {
                 _logger.LogError("Could not return lenders", ex);
                 throw;
             }
+            return lenders;
         }
     }
 }

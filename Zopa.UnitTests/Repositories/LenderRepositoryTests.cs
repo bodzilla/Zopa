@@ -14,9 +14,14 @@ namespace Zopa.UnitTests.Repositories
     {
         private IRepository<Lender> _lenderRepository;
         private Mock<ILogger<LenderRepository>> _logger;
+        private Mock<IDataStore> _dataStore;
 
         [OneTimeSetUp]
-        public void Setup() => _logger = new Mock<ILogger<LenderRepository>>();
+        public void Setup()
+        {
+            _logger = new Mock<ILogger<LenderRepository>>();
+            _dataStore = new Mock<IDataStore>();
+        }
 
         [OneTimeTearDown]
         public void TearDown() => _lenderRepository = null;
@@ -33,7 +38,8 @@ namespace Zopa.UnitTests.Repositories
                 new Lender("Test3",3,100),
             };
 
-            _lenderRepository = new LenderRepository(_logger.Object, data);
+            _dataStore.Setup(x => x.ExtractAllLenders()).Returns(data);
+            _lenderRepository = new LenderRepository(_logger.Object, _dataStore.Object);
 
             #endregion
 
@@ -57,7 +63,8 @@ namespace Zopa.UnitTests.Repositories
         {
             #region Arrange
 
-            _lenderRepository = new LenderRepository(_logger.Object, new List<Lender>());
+            _dataStore.Setup(x => x.ExtractAllLenders()).Returns(new List<Lender>());
+            _lenderRepository = new LenderRepository(_logger.Object, _dataStore.Object);
 
             #endregion
 
@@ -81,7 +88,8 @@ namespace Zopa.UnitTests.Repositories
         {
             #region Arrange
 
-            _lenderRepository = new LenderRepository(_logger.Object, null);
+            _dataStore.Setup(x => x.ExtractAllLenders()).Returns(() => null);
+            _lenderRepository = new LenderRepository(_logger.Object, _dataStore.Object);
 
             #endregion
 

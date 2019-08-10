@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using CsvHelper;
 using Microsoft.Extensions.Logging;
+using Zopa.Core.Contracts;
 using Zopa.Models;
 
 namespace Zopa.Core.Common
@@ -11,7 +12,7 @@ namespace Zopa.Core.Common
     /// <summary>
     /// The class that manages data extraction.
     /// </summary>
-    public class DataStore
+    public class DataStore : IDataStore
     {
         private readonly ILogger<DataStore> _logger;
         private readonly string _path;
@@ -22,10 +23,7 @@ namespace Zopa.Core.Common
             _path = path;
         }
 
-        /// <summary>
-        /// Extracts all <see cref="Lender"/> from CSV.
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc />
         public IEnumerable<Lender> ExtractAllLenders()
         {
             var lenders = new List<Lender>();
@@ -38,8 +36,7 @@ namespace Zopa.Core.Common
                     {
                         var records = csvReader.GetRecords<dynamic>();
                         lenders.AddRange(
-                            records.Select(
-                                lender => new Lender(lender.Lender, double.Parse(lender.Rate), double.Parse(lender.Available)))
+                            records.Select(lender => new Lender(lender.Lender, double.Parse(lender.Rate), double.Parse(lender.Available)))
                         );
                     }
                 }
