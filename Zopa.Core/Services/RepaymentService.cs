@@ -13,20 +13,20 @@ namespace Zopa.Core.Services
         public RepaymentService(ILogger<RepaymentService> logger) => _logger = logger;
 
         /// <inheritdoc />
-        public double GetMonthlyRepaymentAmount(int amountRequested, double interestRateDecimal, int repaymentLengthMonths)
+        public double GetMonthlyRepaymentAmount(int amountRequested, double annualInterestRateDecimal, int repaymentLengthMonths)
         {
             double monthlyRepayment;
             try
             {
                 // This is the Amortization forumla, adapted from: https://en.wikipedia.org/wiki/Amortization_calculator#The_formula
                 var totalPayments = -(MonthsInYear * (repaymentLengthMonths / MonthsInYear));
-                var numerator = amountRequested * interestRateDecimal / MonthsInYear;
-                var denominator = 1 - Math.Pow(1 + interestRateDecimal / MonthsInYear, totalPayments);
+                var numerator = amountRequested * annualInterestRateDecimal / MonthsInYear;
+                var denominator = 1 - Math.Pow(1 + annualInterestRateDecimal / MonthsInYear, totalPayments);
                 monthlyRepayment = numerator / denominator;
             }
             catch (Exception ex)
             {
-                _logger.LogError("Could not calculate monthly repayment rate.", amountRequested, interestRateDecimal, repaymentLengthMonths, ex);
+                _logger.LogError("Could not calculate monthly repayment rate.", amountRequested, annualInterestRateDecimal, repaymentLengthMonths, ex);
                 throw;
             }
             return monthlyRepayment;

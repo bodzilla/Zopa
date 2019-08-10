@@ -66,8 +66,8 @@ namespace Zopa.Core.Services
                 foreach (var lender in lenders)
                 {
                     // Calculate the monthly repayment for current lender and add it to the quote list.
-                    var monthlyRepayment = _repaymentService.GetMonthlyRepaymentAmount(amountRequested, lender.InterestRateDecimal, _repaymentLengthMonths);
-                    var quote = new Quote(amountRequested, lender.InterestRateDecimal, monthlyRepayment, _repaymentLengthMonths);
+                    var monthlyRepayment = _repaymentService.GetMonthlyRepaymentAmount(amountRequested, lender.AnnualInterestRateDecimal, _repaymentLengthMonths);
+                    var quote = new Quote(amountRequested, lender.AnnualInterestRateDecimal, monthlyRepayment, _repaymentLengthMonths);
                     quotes.Add(quote);
                 }
             }
