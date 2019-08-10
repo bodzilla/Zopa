@@ -13,12 +13,14 @@ Development approach:
 - TDD (although I wrote my code before-hand)
 - Any contract length / loan increments / loan ranges can be used
 - Lender / quotes are immutable
-- The lowest total payment out of the lender's who are capable of offering a loan is considered the "top quote"
+- The lowest total payment out of the lender's who are capable of offering a loan is considered the "best quote"
 - The decimal point constraints are defined in the front end as I percieved this to be a UI choice rather than a business constraint, therefore a different front end could use the same data but with it's own constaint rules
 
 Would like to improve by:
-- Pushing as a serverless cloud app (i.e. Azure Function)
+- "Best quote" logic does not account for the instance where they may be more than one lender with the same rate and will pick the first occuring lender in the match - it would be useful to discriminate agaisnt a secondary metric in this situation
+- Pushing as a serverless cloud app (i.e. Azure Function, AWS Lambda)
 - Using BDD approach to testing with relevant frameworks
 - Using a NoSQL database as data store
 - Using async approach
 - Custom exceptions
+- Comments in unit tests (lack of time)
