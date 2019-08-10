@@ -27,7 +27,7 @@ namespace Zopa.Console
                     // Interest rate to one decimal point.
                     // Amounts to two decimal points.
                     System.Console.WriteLine($"Requested amount: £{quote.AmountRequested}{Environment.NewLine}" +
-                                             $"Annual interest rate: {quote.AnnualInterestRatePercentage:0.0}%{Environment.NewLine}" +
+                                             $"Annual Interest Rate: {quote.AnnualInterestRatePercentage:0.0}%{Environment.NewLine}" +
                                              $"Monthly repayment: £{quote.MonthlyRepayment:0.00}{Environment.NewLine}" +
                                              $"Total repayment: £{quote.TotalRepayment:0.00}");
                 }
