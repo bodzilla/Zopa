@@ -39,7 +39,7 @@ namespace Zopa.Console
             catch (Exception ex)
             {
                 _logger.LogCritical("Could not continue application runtime.", ex);
-                throw;
+                System.Console.WriteLine("The service could not fulfill your request.");
             }
         }
     }

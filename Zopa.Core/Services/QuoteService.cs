@@ -37,7 +37,7 @@ namespace Zopa.Core.Services
                 bool amountRequestedValid = _conditionService.CheckAmountRequestedValid(amountRequested);
                 if (!amountRequestedValid)
                 {
-                    var exception = new Exception($"£{amountRequested} is not within the accepted criteria.");
+                    var exception = new Exception($"{amountRequested} is not within the accepted criteria.");
                     _logger.LogError(exception.Message, exception);
                     throw exception;
                 }
