@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -42,12 +41,13 @@ namespace Zopa.Core.Services
                     throw exception;
                 }
 
-                // Get all lenders and assess which of them have the funds to offer a quote.
+                // Generate quotes from lenders who have the required funds.
                 var lenders = _lenderService.GetListWithMinAmount(amountRequested);
-                var quotes = GetQuotes(lenders, amountRequested);
+                var quotes = lenders.Select(lender => CreateQuote(lender, amountRequested)).ToList();
 
-                // The best quote offers the lowest total repayment or null.
-                bestQuote = quotes?.OrderBy(quote => quote.TotalRepayment).FirstOrDefault();
+                // The best quote offers the lowest total repayment.
+                // Is null when there are no lenders capable of offering a quote.
+                bestQuote = quotes.OrderBy(quote => quote.TotalRepayment).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -58,25 +58,21 @@ namespace Zopa.Core.Services
         }
 
         /// <inheritdoc />
-        public IEnumerable<Quote> GetQuotes(IEnumerable<Lender> lenders, int amountRequested)
+        public Quote CreateQuote(Lender lender, int amountRequested)
         {
-            var quotes = new List<Quote>();
+            Quote quote;
             try
             {
-                foreach (var lender in lenders)
-                {
-                    // Calculate the monthly repayment for current lender and add it to the quote list.
-                    var monthlyRepayment = _repaymentService.GetMonthlyRepaymentAmount(amountRequested, lender.AnnualInterestRateDecimal, _repaymentLengthMonths);
-                    var quote = new Quote(amountRequested, lender.AnnualInterestRateDecimal, monthlyRepayment, _repaymentLengthMonths);
-                    quotes.Add(quote);
-                }
+                // Calculate the monthly repayment using the lender's interest rate and repayment length, then create quote.
+                var monthlyRepayment = _repaymentService.GetMonthlyRepaymentAmount(amountRequested, lender.AnnualInterestRateDecimal, _repaymentLengthMonths);
+                quote = new Quote(amountRequested, lender.AnnualInterestRateDecimal, monthlyRepayment, _repaymentLengthMonths);
             }
             catch (Exception ex)
             {
-                _logger.LogError("Could not get quotes.", lenders, amountRequested, _repaymentLengthMonths, ex);
+                _logger.LogError("Could not get quote.", lender, amountRequested, _repaymentLengthMonths, ex);
                 throw;
             }
-            return quotes;
+            return quote;
         }
     }
 }

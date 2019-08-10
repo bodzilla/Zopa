@@ -2,7 +2,7 @@
 {
     public sealed class Lender
     {
-        public Lender(string name, double annualInterestRateDecimal, double cashAvailable)
+        public Lender(string name, double annualInterestRateDecimal, int cashAvailable)
         {
             Name = name;
             AnnualInterestRateDecimal = annualInterestRateDecimal;
@@ -13,6 +13,6 @@
 
         public double AnnualInterestRateDecimal { get; }
 
-        public double CashAvailable { get; }
+        public int CashAvailable { get; }
     }
 }

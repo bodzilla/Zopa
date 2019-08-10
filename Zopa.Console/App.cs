@@ -33,7 +33,7 @@ namespace Zopa.Console
                 }
                 else
                 {
-                    System.Console.WriteLine("No quotes are available for your requested amount.");
+                    System.Console.WriteLine("There are no quotes available for your requested amount.");
                 }
             }
             catch (Exception ex)

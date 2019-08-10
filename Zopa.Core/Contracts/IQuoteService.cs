@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Zopa.Models;
+﻿using Zopa.Models;
 
 namespace Zopa.Core.Contracts
 {
@@ -9,18 +8,18 @@ namespace Zopa.Core.Contracts
     public interface IQuoteService
     {
         /// <summary>
-        /// Calculates the best <see cref="Quote"/> for the given amount and time.
+        /// Gets the best quote offers the lowest total repayment. Returns null when there are no lenders capable of offering a quote.
         /// </summary>
         /// <param name="amountRequested"></param>
         /// <returns></returns>
         Quote GetBestQuote(int amountRequested);
 
         /// <summary>
-        /// Get all <see cref="Quote"/> for the given amount and time.
+        /// Creates <see cref="Quote"/> for the given amount and time.
         /// </summary>
-        /// <param name="lenders"></param>
+        /// <param name="lender"></param>
         /// <param name="amountRequested"></param>
         /// <returns></returns>
-        IEnumerable<Quote> GetQuotes(IEnumerable<Lender> lenders, int amountRequested);
+        Quote CreateQuote(Lender lender, int amountRequested);
     }
 }
