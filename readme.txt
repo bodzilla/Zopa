@@ -4,10 +4,10 @@ Run instructions:
 - Run using: "dotnet .\Zopa.Console.dll [market_file_path] [loan_amount]"
 
 Packages used:
-- CsvHelper (fairly acceptable community driven contribution)
+- CsvHelper (fairly supported community-driven project)
 - Microsoft.Extensions.Logging
 - Microsoft.Extensions.DependencyInjection
-- NUnit3TestAdapter (for unit testing)
+- NUnit3TestAdapter (for unit-testing)
 
 Development approach:
 - TDD (although I wrote my code before-hand)
