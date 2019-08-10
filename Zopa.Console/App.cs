@@ -24,7 +24,6 @@ namespace Zopa.Console
 
                 if (quote != null)
                 {
-
                     // Interest rate to one decimal point.
                     // Amounts to two decimal points.
                     System.Console.WriteLine($"Requested amount: £{quote.AmountRequested}{Environment.NewLine}" +
