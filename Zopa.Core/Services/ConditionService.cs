@@ -21,7 +21,7 @@ namespace Zopa.Core.Services
         }
 
         /// <inheritdoc />
-        public bool CheckAmountRequestedValid(int amountRequested)
+        public bool IsAmountRequestedValid(int amountRequested)
         {
             try
             {

@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="amountRequested"></param>
         /// <returns></returns>
-        bool CheckAmountRequestedValid(int amountRequested);
+        bool IsAmountRequestedValid(int amountRequested);
 
         /// <summary>
         /// Checks if the amount requested is disivible by the given number.

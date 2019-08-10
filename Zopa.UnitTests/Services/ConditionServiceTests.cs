@@ -30,8 +30,14 @@ namespace Zopa.UnitTests.Services
         {
             #region Arrange
 
-            var settings = new Dictionary<string, string> { { "DivisibleValue", divisibleValue } };
-            IConfiguration configuration = new ConfigurationBuilder().AddInMemoryCollection(settings).Build();
+            var settings = new Dictionary<string, string>
+            {
+                {
+                    "DivisibleValue", divisibleValue
+                }
+            };
+
+            var configuration = new ConfigurationBuilder().AddInMemoryCollection(settings).Build();
             _conditionService = new ConditionService(_logger.Object, configuration);
 
             #endregion
@@ -71,7 +77,7 @@ namespace Zopa.UnitTests.Services
                 }
             };
 
-            IConfiguration configuration = new ConfigurationBuilder().AddInMemoryCollection(settings).Build();
+            var configuration = new ConfigurationBuilder().AddInMemoryCollection(settings).Build();
             _conditionService = new ConditionService(_logger.Object, configuration);
 
             #endregion
