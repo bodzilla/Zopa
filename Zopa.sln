@@ -9,7 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zopa.Core", "Zopa.Core\Zopa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zopa.Console", "Zopa.Console\Zopa.Console.csproj", "{FDAF3423-9311-44B8-97B8-407425D3944F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zopa.UnitTests", "Zopa.UnitTests\Zopa.UnitTests.csproj", "{E70F565C-4D3F-420B-8972-13D51BC714F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zopa.UnitTests", "Zopa.UnitTests\Zopa.UnitTests.csproj", "{E70F565C-4D3F-420B-8972-13D51BC714F8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{643E6540-B519-4529-9A32-95CA4E1BD97B}"
+	ProjectSection(SolutionItems) = preProject
+		readme.txt = readme.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
