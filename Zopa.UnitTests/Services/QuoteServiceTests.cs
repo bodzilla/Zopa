@@ -16,7 +16,6 @@ namespace Zopa.UnitTests.Services
         private IQuoteService _quoteService;
         private Mock<ILogger<QuoteService>> _logger;
         private Mock<ILenderService> _lenderService;
-        private Mock<IRepaymentService> _repaymentService;
         private Mock<IConditionService> _conditionService;
 
         [OneTimeSetUp]
@@ -24,7 +23,6 @@ namespace Zopa.UnitTests.Services
         {
             _logger = new Mock<ILogger<QuoteService>>();
             _lenderService = new Mock<ILenderService>();
-            _repaymentService = new Mock<IRepaymentService>();
             _conditionService = new Mock<IConditionService>();
         }
 
