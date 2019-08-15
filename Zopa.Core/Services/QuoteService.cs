@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -27,38 +28,30 @@ namespace Zopa.Core.Services
         }
 
         /// <inheritdoc />
-        public Quote GetBestQuote(int amountRequested)
+        public IEnumerable<Quote> GetBestQuotes(int amountRequested)
         {
-            Quote bestQuote;
+            IList<Quote> quotes;
             try
             {
-                // Check if the amount requested is valid to continue.
-                bool amountRequestedValid = _conditionService.IsAmountRequestedValid(amountRequested);
-                if (!amountRequestedValid)
-                {
-                    var exception = new Exception($"{amountRequested} is not within the accepted criteria.");
-                    _logger.LogError(exception.Message, exception);
-                    throw exception;
-                }
-
-                // Generate quotes from lenders who have the required funds.
-                var lenders = _lenderService.GetListWithMinAmount(amountRequested);
-                var quotes = lenders.Select(lender => CreateQuote(lender, amountRequested)).ToList();
-
-                // The best quote offers the lowest total repayment.
-                // Is null when there are no lenders capable of offering a quote.
-                bestQuote = quotes.OrderBy(quote => quote.TotalRepayment).FirstOrDefault();
+                CheckRequestedAmountValid(amountRequested);
+                var lenders = _lenderService.GetLendersWithAmountToLend(amountRequested);
+                quotes = lenders.Select(lender => CreateQuote(lender.Key, lender.Value)).ToList();
             }
             catch (Exception ex)
             {
-                _logger.LogError("Could not get best quote.", amountRequested, _repaymentLengthMonths, ex);
+                _logger.LogError("Could not get best quotes.", amountRequested, ex);
                 throw;
             }
-            return bestQuote;
+            return quotes;
         }
 
-        /// <inheritdoc />
-        public Quote CreateQuote(Lender lender, int amountRequested)
+        /// <summary>
+        /// Creates <see cref="Quote"/> for the given amount and time.
+        /// </summary>
+        /// <param name="lender"></param>
+        /// <param name="amountRequested"></param>
+        /// <returns></returns>
+        private Quote CreateQuote(Lender lender, int amountRequested)
         {
             Quote quote;
             try
@@ -73,6 +66,22 @@ namespace Zopa.Core.Services
                 throw;
             }
             return quote;
+        }
+
+        /// <summary>
+        /// Checks if the amount requested is valid.
+        /// </summary>
+        /// <param name="amountRequested"></param>
+        private void CheckRequestedAmountValid(int amountRequested)
+        {
+            bool amountRequestedValid = _conditionService.IsAmountRequestedValid(amountRequested);
+            if (amountRequestedValid)
+            {
+                return;
+            }
+            var exception = new Exception($"{amountRequested} is not within the accepted criteria.");
+            _logger.LogError(exception.Message, exception);
+            throw exception;
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using Zopa.Core.Common.Exceptions;
 using Zopa.Core.Contracts;
 using Zopa.Core.Services;
 using Zopa.Models;
@@ -27,135 +28,75 @@ namespace Zopa.UnitTests.Services
         public void TearDown() => _lenderService = null;
 
         [Test]
-        public void GetAll_ThreeLenders_ReturnsThreeLenders()
+        public void GetLendersWithAmountToLend_FourLenders_ReturnsThreeLenders()
         {
             #region Arrange
 
             var data = new List<Lender>
             {
-                new Lender("Test1",1,1),
-                new Lender("Test2",2,10),
-                new Lender("Test3",3,100)
+                new Lender("Test1",0.01,500),
+                new Lender("Test2",0.02,300),
+                new Lender("Test3",0.03,200),
+                new Lender("Test4",0.04,100)
             };
 
+            var settings = new Dictionary<string, string>
+            {
+                {
+                    "OrderByLowestRate", "True"
+                }
+            };
+
+            var configuration = new ConfigurationBuilder().AddInMemoryCollection(settings).Build();
             _repository.Setup(x => x.GetAll()).Returns(data);
-            _lenderService = new LenderService(_logger.Object, _repository.Object);
+            _lenderService = new LenderService(_logger.Object, configuration, _repository.Object);
 
             #endregion
 
             #region Act
 
-            var result = _lenderService.GetAll();
+            var result = _lenderService.GetLendersWithAmountToLend(1000);
 
             #endregion
 
             #region Assert
 
-            var list = result.ToList();
-            Assert.That(list, Is.TypeOf<List<Lender>>());
-            Assert.That(list.Count, Is.EqualTo(3));
+            Assert.That(result, Is.TypeOf<Dictionary<Lender, int>>());
+            Assert.That(result.Count, Is.EqualTo(3));
 
             #endregion
         }
 
         [Test]
-        public void GetAll_EmptyCollection_ThrowsException()
-        {
-            #region Arrange
-
-            _repository.Setup(x => x.GetAll()).Returns(new List<Lender>());
-            _lenderService = new LenderService(_logger.Object, _repository.Object);
-
-            #endregion
-
-            #region Act And Assert
-
-            Assert.That(() => _lenderService.GetAll(), Throws.Exception);
-
-            #endregion
-        }
-
-        [Test]
-        public void GetAll_NullResult_ThrowsException()
-        {
-            #region Arrange
-
-            _repository.Setup(x => x.GetAll()).Returns(() => null);
-            _lenderService = new LenderService(_logger.Object, _repository.Object);
-
-            #endregion
-
-            #region Act And Assert
-
-            Assert.That(() => _lenderService.GetAll(), Throws.Exception);
-
-            #endregion
-        }
-
-        [Test]
-        public void GetListWithMinAmount_FiveAvailableLenders_ReturnsThreeValidLenders()
+        public void GetLendersWithAmountToLend_NotEnoughLenders_ThrowsAmountRequestedNotRaisedException()
         {
             #region Arrange
 
             var data = new List<Lender>
             {
-                new Lender("Test1",1,100),
-                new Lender("Test2",2,200),
-                new Lender("Test3",3,1000),
-                new Lender("Test4",4,2500),
-                new Lender("Test5",5,10000)
+                new Lender("Test1",0.01,500)
             };
 
+            var settings = new Dictionary<string, string>
+            {
+                {
+                    "OrderByLowestRate", "True"
+                }
+            };
+
+            var configuration = new ConfigurationBuilder().AddInMemoryCollection(settings).Build();
             _repository.Setup(x => x.GetAll()).Returns(data);
-            _lenderService = new LenderService(_logger.Object, _repository.Object);
+            _lenderService = new LenderService(_logger.Object, configuration, _repository.Object);
 
             #endregion
 
             #region Act
 
-            var result = _lenderService.GetListWithMinAmount(1000);
-
             #endregion
 
             #region Assert
 
-            var list = result.ToList();
-            Assert.That(list, Is.TypeOf<List<Lender>>());
-            Assert.That(list.Count, Is.EqualTo(3));
-
-            #endregion
-        }
-
-        [Test]
-        public void GetListWithMinAmount_EmptyCollection_ThrowsException()
-        {
-            #region Arrange
-
-            _repository.Setup(x => x.GetAll()).Returns(new List<Lender>());
-            _lenderService = new LenderService(_logger.Object, _repository.Object);
-
-            #endregion
-
-            #region Act And Assert
-
-            Assert.That(() => _lenderService.GetListWithMinAmount(1000), Throws.Exception);
-
-            #endregion
-        }
-
-        [Test]
-        public void GetListWithMinAmount_NullResult_ThrowsException()
-        {
-            #region Arrange
-
-            _repository.Setup(x => x.GetAll()).Returns(() => null);
-            _lenderService = new LenderService(_logger.Object, _repository.Object);
-
-            #endregion
-
-            #region Act And Assert
-
-            Assert.That(() => _lenderService.GetListWithMinAmount(1000), Throws.Exception);
+            Assert.That(() => _lenderService.GetLendersWithAmountToLend(2000), Throws.TypeOf<AmountRequestedNotRaisedException>());
 
             #endregion
         }

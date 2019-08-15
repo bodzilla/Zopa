@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Extensions.Logging;
+using Zopa.Core.Common.Exceptions;
 using Zopa.Core.Contracts;
 
 namespace Zopa.Console
@@ -19,22 +21,19 @@ namespace Zopa.Console
         {
             try
             {
-                // Get the best quote out of the available lenders.
-                var quote = _quoteService.GetBestQuote(amountRequested);
+                var quotes = _quoteService.GetBestQuotes(amountRequested).ToList();
 
-                if (quote != null)
+                foreach (var quote in quotes)
                 {
-                    // Interest rate to one decimal point.
-                    // Amounts to two decimal points.
                     System.Console.WriteLine($"Requested amount: £{quote.AmountRequested}{Environment.NewLine}" +
                                              $"Annual Interest Rate: {quote.AnnualInterestRatePercentage:0.0}%{Environment.NewLine}" +
                                              $"Monthly repayment: £{quote.MonthlyRepayment:0.00}{Environment.NewLine}" +
-                                             $"Total repayment: £{quote.TotalRepayment:0.00}");
+                                             $"Total repayment: £{quote.TotalRepayment:0.00}{Environment.NewLine}");
                 }
-                else
-                {
-                    System.Console.WriteLine("There are no quotes available for your requested amount.");
-                }
+            }
+            catch (AmountRequestedNotRaisedException)
+            {
+                System.Console.WriteLine("The service could not provide enough quotes for your requested amount.");
             }
             catch (Exception ex)
             {
