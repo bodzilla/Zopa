@@ -34,7 +34,7 @@ namespace Zopa.UnitTests.Services
         [TestCase(36, 100, 0.01, 0.2, 0.3)]
         [TestCase(12, 100, 0.07, 0.09, 0.1)]
         [TestCase(24, 100, 0.01, 0.2, 0.3)]
-        public void GetBestQuote_ThreeLenders_ReturnsBestQuotes(int repaymentLengthMonths, int amountRequested,
+        public void GetBestQuotes_ThreeLenders_ReturnsBestQuotes(int repaymentLengthMonths, int amountRequested,
             double lowestInterestRate, double higherInterestRateOne, double higherInterestRateTwo)
         {
             #region Arrange
