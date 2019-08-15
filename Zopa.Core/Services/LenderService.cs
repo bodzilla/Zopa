@@ -36,9 +36,7 @@ namespace Zopa.Core.Services
                 {
                     if (availableLenders.Count < 1)
                     {
-                        var exception = new AmountRequestedNotRaisedException();
-                        _logger.LogError(exception.Message, exception);
-                        throw exception;
+                        throw new AmountRequestedNotRaisedException();
                     }
 
                     var lender = availableLenders.Pop();
@@ -58,8 +56,9 @@ namespace Zopa.Core.Services
                     }
                 }
             }
-            catch (AmountRequestedNotRaisedException)
+            catch (AmountRequestedNotRaisedException ex)
             {
+                _logger.LogError(ex.Message, ex);
                 throw;
             }
             catch (Exception ex)
