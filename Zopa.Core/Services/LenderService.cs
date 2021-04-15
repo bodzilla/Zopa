@@ -79,8 +79,8 @@ namespace Zopa.Core.Services
             {
                 var lenders = GetAll().ToList();
                 var orderedLenders = _orderByLowestRate ?
-                    new Stack<Lender>(lenders.OrderByDescending(x => x.AnnualInterestRateDecimal)) :
-                    new Stack<Lender>(lenders.OrderBy(x => x.AnnualInterestRateDecimal));
+                    new Stack<Lender>(lenders.OrderByDescending(x => x.AnnualInterestRateDecimal).ThenBy(x => x.CashAvailable)) :
+                    new Stack<Lender>(lenders.OrderBy(x => x.CashAvailable));
                 return orderedLenders;
             }
             catch (Exception ex)

@@ -2,7 +2,7 @@
   "profiles": {
     "Zopa.Console": {
       "commandName": "Project",
-      "commandLineArgs": ""
+      "commandLineArgs": "C:\\Users\\bodrul.choudhury\\Desktop\\lenders.csv 1000"
     }
   }
 }
